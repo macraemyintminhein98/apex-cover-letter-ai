@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoverGenius AI</title>
+    <meta name="description" content="Generate tailor-made cover letters instantly with AI.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { font-family: sans-serif; }
+        .container { max-width: 800px; margin: 2rem auto; padding: 1.5rem; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        textarea, input[type="file"] { width: 100%; border: 1px solid #ccc; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
+        button { padding: 0.75rem 1.5rem; background-color: #4F46E5; color: white; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
+        button:hover { background-color: #4338CA; }
+        #coverLetterOutput { min-height: 200px; border: 1px solid #eee; background-color: #f9f9f9; padding: 1rem; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-6">CoverGenius AI</h1>
+        <p class="text-center text-gray-600 mb-8">Craft perfect cover letters in seconds with AI.</p>
+
+        <label for="resumeUpload" class="block text-gray-700 text-sm font-bold mb-2">Upload Resume (PDF/DOCX):</label>
+        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" class="mb-4">
+
+        <label for="jobDescription" class="block text-gray-700 text-sm font-bold mb-2">Job Description / Role & Industry:</label>
+        <textarea id="jobDescription" rows="8" placeholder="Paste the job description here, or describe the role and industry (e.g., 'Software Engineer at a FinTech startup')." class="mb-4"></textarea>
+
+        <div class="flex justify-center mb-6">
+            <button onclick="generateCoverLetter()">Generate Cover Letter</button>
+        </div>
+
+        <div id="outputSection" class="hidden">
+            <h2 class="text-xl font-bold mb-4">Your Tailored Cover Letter:</h2>
+            <div id="coverLetterOutput" class="mb-4"></div>
+            <div class="flex space-x-4 mb-4">
+                <button onclick="copyCoverLetter()" class="bg-green-500 hover:bg-green-600">Copy to Clipboard</button>
+                <button onclick="downloadCoverLetter()" class="bg-blue-500 hover:bg-blue-600">Download .txt</button>
+            </div>
+            <p class="text-sm text-gray-500">Please note: For full access and unlimited generations, a one-time payment is required.</p>
+            <div class="flex justify-center mt-4">
+                <button onclick="initiatePayment()" class="bg-indigo-600 hover:bg-indigo-700">Unlock Unlimited Generations for $9.99</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateCoverLetter() {
+            document.getElementById('outputSection').classList.remove('hidden');
+            document.getElementById('coverLetterOutput').innerText = 'Generating your cover letter... This might take a moment.';
+            // In a real app, this would send data to a backend API.
+            setTimeout(() => {
+                document.getElementById('coverLetterOutput').innerText = 
+                    "Dear Hiring Manager,\n\nI am writing to express my eager interest in the [Job Title] position at [Company Name], as advertised on [Platform]. With a strong background in [Your Key Skill 1] and [Your Key Skill 2], my experience aligns perfectly with the requirements outlined in your job description.\n\nDuring my tenure at [Previous Company], I successfully [achieved a relevant accomplishment] and contributed to [another relevant achievement]. I am particularly drawn to [Company Name]'s innovative approach to [something specific about the company/industry] and am confident that my skills in [Skill 3] and passion for [Industry/Area] would make a significant contribution to your team.\n\nThank you for considering my application. I am excited about the prospect of discussing how my qualifications and enthusiasm can benefit [Company Name]. I have attached my resume for your review and look forward to hearing from you soon.\n\nSincerely,\n[Your Name]";
+            }, 2000);
+        }
+
+        function copyCoverLetter() {
+            const output = document.getElementById('coverLetterOutput').innerText;
+            navigator.clipboard.writeText(output).then(() => {
+                alert('Cover letter copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy text:', err);
+            });
+        }
+
+        function downloadCoverLetter() {
+            const output = document.getElementById('coverLetterOutput').innerText;
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
+            element.setAttribute('download', 'cover_letter.txt');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        function initiatePayment() {
+            alert('Redirecting to secure payment... (Stripe integration would go here)');
+            // In a live application, this would redirect to a Stripe Checkout session.
+        }
+    </script>
+</body>
+</html>
