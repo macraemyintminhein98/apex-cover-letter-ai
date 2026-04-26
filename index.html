@@ -3,83 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoverGenius AI</title>
-    <meta name="description" content="Generate tailor-made cover letters instantly with AI.">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>AI Cover Letter Generator</title>
     <style>
-        body { font-family: sans-serif; }
-        .container { max-width: 800px; margin: 2rem auto; padding: 1.5rem; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        textarea, input[type="file"] { width: 100%; border: 1px solid #ccc; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
-        button { padding: 0.75rem 1.5rem; background-color: #4F46E5; color: white; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
-        button:hover { background-color: #4338CA; }
-        #coverLetterOutput { min-height: 200px; border: 1px solid #eee; background-color: #f9f9f9; padding: 1rem; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; }
-        .hidden { display: none; }
+        body { font-family: sans-serif; margin: 20px; line-height: 1.6; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #0056b3; text-align: center; margin-bottom: 25px; }
+        textarea { width: calc(100% - 20px); padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; resize: vertical; min-height: 120px; }
+        button { display: block; width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 18px; cursor: pointer; transition: background-color 0.3s ease; }
+        button:hover { background-color: #218838; }
+        #coverLetterOutput { margin-top: 25px; padding: 15px; background-color: #e9ecef; border-radius: 4px; word-wrap: break-word; white-space: pre-wrap; border: 1px solid #ced4da; min-height: 50px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        .price-info { text-align: center; margin-top: 20px; font-size: 1.1em; color: #0056b3; }
     </style>
 </head>
-<body class="bg-gray-100 p-4">
+<body>
     <div class="container">
-        <h1 class="text-3xl font-bold text-center mb-6">CoverGenius AI</h1>
-        <p class="text-center text-gray-600 mb-8">Craft perfect cover letters in seconds with AI.</p>
-
-        <label for="resumeUpload" class="block text-gray-700 text-sm font-bold mb-2">Upload Resume (PDF/DOCX):</label>
-        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" class="mb-4">
-
-        <label for="jobDescription" class="block text-gray-700 text-sm font-bold mb-2">Job Description / Role & Industry:</label>
-        <textarea id="jobDescription" rows="8" placeholder="Paste the job description here, or describe the role and industry (e.g., 'Software Engineer at a FinTech startup')." class="mb-4"></textarea>
-
-        <div class="flex justify-center mb-6">
-            <button onclick="generateCoverLetter()">Generate Cover Letter</button>
-        </div>
-
-        <div id="outputSection" class="hidden">
-            <h2 class="text-xl font-bold mb-4">Your Tailored Cover Letter:</h2>
-            <div id="coverLetterOutput" class="mb-4"></div>
-            <div class="flex space-x-4 mb-4">
-                <button onclick="copyCoverLetter()" class="bg-green-500 hover:bg-green-600">Copy to Clipboard</button>
-                <button onclick="downloadCoverLetter()" class="bg-blue-500 hover:bg-blue-600">Download .txt</button>
-            </div>
-            <p class="text-sm text-gray-500">Please note: For full access and unlimited generations, a one-time payment is required.</p>
-            <div class="flex justify-center mt-4">
-                <button onclick="initiatePayment()" class="bg-indigo-600 hover:bg-indigo-700">Unlock Unlimited Generations for $9.99</button>
-            </div>
-        </div>
+        <h1>AI Cover Letter Generator</h1>
+        <p class="price-info">Generate your personalized cover letter instantly for just $4.99!</p>
+        <label for="resumeText">Paste Your Resume Here:</label>
+        <textarea id="resumeText" placeholder="Paste your resume text here..."></textarea>
+        
+        <label for="jobDescription">Paste Job Description Here:</label>
+        <textarea id="jobDescription" placeholder="Paste the job description here..."></textarea>
+        
+        <button id="generateBtn">Generate Cover Letter</button>
+        
+        <h2>Your Cover Letter:</h2>
+        <div id="coverLetterOutput">Your generated cover letter will appear here.</div>
     </div>
-
     <script>
-        function generateCoverLetter() {
-            document.getElementById('outputSection').classList.remove('hidden');
-            document.getElementById('coverLetterOutput').innerText = 'Generating your cover letter... This might take a moment.';
-            // In a real app, this would send data to a backend API.
-            setTimeout(() => {
-                document.getElementById('coverLetterOutput').innerText = 
-                    "Dear Hiring Manager,\n\nI am writing to express my eager interest in the [Job Title] position at [Company Name], as advertised on [Platform]. With a strong background in [Your Key Skill 1] and [Your Key Skill 2], my experience aligns perfectly with the requirements outlined in your job description.\n\nDuring my tenure at [Previous Company], I successfully [achieved a relevant accomplishment] and contributed to [another relevant achievement]. I am particularly drawn to [Company Name]'s innovative approach to [something specific about the company/industry] and am confident that my skills in [Skill 3] and passion for [Industry/Area] would make a significant contribution to your team.\n\nThank you for considering my application. I am excited about the prospect of discussing how my qualifications and enthusiasm can benefit [Company Name]. I have attached my resume for your review and look forward to hearing from you soon.\n\nSincerely,\n[Your Name]";
-            }, 2000);
-        }
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            const resume = document.getElementById('resumeText').value;
+            const jobDesc = document.getElementById('jobDescription').value;
+            const outputDiv = document.getElementById('coverLetterOutput');
 
-        function copyCoverLetter() {
-            const output = document.getElementById('coverLetterOutput').innerText;
-            navigator.clipboard.writeText(output).then(() => {
-                alert('Cover letter copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy text:', err);
-            });
-        }
+            if (!resume || !jobDesc) {
+                outputDiv.textContent = 'Please paste both your resume and the job description.';
+                return;
+            }
+            
+            outputDiv.textContent = 'Generating your cover letter... This may take a moment.';
 
-        function downloadCoverLetter() {
-            const output = document.getElementById('coverLetterOutput').innerText;
-            const element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
-            element.setAttribute('download', 'cover_letter.txt');
-            element.style.display = 'none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
-        }
+            try {
+                // In a real app, this would hit a backend API that then calls OpenAI & Stripe.
+                // For this MVP, we'll simulate the output.
+                console.log('Sending request to backend/OpenAI...');
+                // Simulate API call and payment processing
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate loading
+                const simulatedOutput = "Dear [Hiring Manager Name],\n\nI am writing to express my keen interest in the [Job Title] position at [Company Name], as advertised on [Platform]. With a robust background in [Key Skill 1] and [Key Skill 2], as detailed in my attached resume, I am confident in my ability to contribute significantly to your team.\n\nMy experience aligns directly with the requirements of this role, particularly [Specific Example from Resume matching Job Desc]. I am particularly drawn to [Company Name]'s commitment to [Company Value/Mission].\n\nThank you for considering my application. I look forward to the opportunity to discuss how my skills and experience can benefit [Company Name].\n\nSincerely,\n[Your Name]";
 
-        function initiatePayment() {
-            alert('Redirecting to secure payment... (Stripe integration would go here)');
-            // In a live application, this would redirect to a Stripe Checkout session.
-        }
+                outputDiv.textContent = simulatedOutput;
+                // Here you'd typically redirect to Stripe Checkout and then process the generation
+                // For this mock, we just show the output.
+            } catch (error) {
+                outputDiv.textContent = 'Error generating cover letter. Please try again later.';
+                console.error('Generation error:', error);
+            }
+        });
     </script>
 </body>
 </html>
